@@ -39,8 +39,10 @@ const logger = winston.createLogger({
 mongoose.connect(config.MONGO_URI, { useNewUrlParser: true })
   .then(() => {
     logger.info('Database connection established')
-  }).catch(err => {
+  })
+  .catch(err => {
     logger.error(err)
+    process.exit(1)
   })
 
 server.use(restify.plugins.acceptParser(server.acceptable))
@@ -92,11 +94,11 @@ server.post('/save-selectors', async (request, response, next) => {
     const { cookies } = request
 
     const userData = await jwtVerifyPromisified(cookies.jwt, config.JWT_SECRET)
+    logger.info(`User: ${userData.id} is saving selectors ${ids}`)
     const result = await User.findByIdAndUpdate(userData.id, { $set: { selectedSectors: ids } })
-
-    logger.info(ids)
     response.send(ids)
   } catch (e) {
+    logger.error('Saving selectors error')
     logger.error(e)
   }
 
