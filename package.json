@@ -11,7 +11,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src/",
     "test": "react-scripts test --env=jsdom",
+    "precommit": "npm run lint",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
@@ -19,6 +21,7 @@
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.10.0"
+    "eslint-plugin-react": "^7.10.0",
+    "husky": "^0.14.3"
   }
 }

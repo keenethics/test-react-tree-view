@@ -2,3 +2,4 @@
 registerServiceWorker.js
 /build
 /coverage
+*.test.js
