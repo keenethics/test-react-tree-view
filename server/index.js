@@ -10,9 +10,7 @@ const util = require('util')
 const Sector = require('./models/Sector')
 const User = require('./models/User')
 
-
 const config = dotenv.config({ path: '../.env' }).parsed
-
 
 const server = restify.createServer({
   name: config.API_NAME,
@@ -21,7 +19,9 @@ const server = restify.createServer({
 
 const date = new Date().toISOString()
 
-const logFormat = winston.format.printf(info => `${date}-${info.level}: ${JSON.stringify(info.message, null, 4)}`)
+const logFormat = winston.format.printf(
+  info => `${date}-${info.level}: ${JSON.stringify(info.message, null, 4)}`,
+)
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -31,12 +31,19 @@ const logger = winston.createLogger({
       prettyPrint: true,
       colorize: true,
       format: winston.format.combine(winston.format.colorize(), logFormat),
-    }), new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    }),
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
     new winston.transports.File({ filename: 'combined.log' }),
   ],
 })
 
-mongoose.connect(config.MONGO_URI, { useNewUrlParser: true })
+mongoose
+  .connect('mongodb://127.0.0.1:27017', {
+    user: 'appDbAdmin',
+    pass: 'password',
+    dbName: 'tree-view',
+    useNewUrlParser: true,
+  })
   .then(() => {
     logger.info('Database connection established')
   })
@@ -65,7 +72,6 @@ server.get('/sectors', async (request, response, next) => {
   const sectors = await Sector.find()
 
   const responseData = { sectors }
-
 
   if (cookies.jwt) {
     // existing user
