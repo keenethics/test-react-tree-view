@@ -18,6 +18,9 @@ package-lock.json
 .env.production.local
 /.vscode
 
+# local db data
+/db/data
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
