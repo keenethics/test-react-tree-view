@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const winston = require('winston')
 const dotenv = require('dotenv')
 
-const {Schema} = mongoose
+const { Schema } = mongoose
 
-const config = dotenv.config({path: '../.env'}).parsed
+const config = dotenv.config({ path: '../.env' }).parsed
 
 
 const server = restify.createServer({
@@ -13,11 +13,9 @@ const server = restify.createServer({
   version: config.API_VERSION,
 })
 
-let date = new Date().toISOString();
+const date = new Date().toISOString()
 
-const logFormat = winston.format.printf(function (info) {
-  return `${date}-${info.level}: ${JSON.stringify(info.message, null, 4)}`;
-});
+const logFormat = winston.format.printf(info => `${date}-${info.level}: ${JSON.stringify(info.message, null, 4)}`)
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -26,28 +24,35 @@ const logger = winston.createLogger({
       handleExceptions: true,
       prettyPrint: true,
       colorize: true,
-      format: winston.format.combine(winston.format.colorize(), logFormat)
-    }), new winston.transports.File({filename: 'error.log', level: 'error'}),
-    new winston.transports.File({filename: 'combined.log'}),
+      format: winston.format.combine(winston.format.colorize(), logFormat),
+    }), new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
   ],
 })
 
 const sectorSchema = new Schema({
   id: String,
-  name: String
-});
+  name: String,
+})
 
-const Sector = mongoose.model('Sector', sectorSchema);
+const Sector = mongoose.model('Sector', sectorSchema)
+
+const selectedSectorsSchema = new Schema({
+  userId: String,
+  sectors: Array,
+})
+
+const SelectedSectors = mongoose.model('SelectedSectors', selectedSectorsSchema)
 
 
 logger.info('The app is started')
 
-mongoose.connect(config.MONGO_URI, {useNewUrlParser: true})
+mongoose.connect(config.MONGO_URI, { useNewUrlParser: true })
   .then(() => {
     logger.info('Database connection established')
   }).catch(err => {
-  logger.error(err)
-})
+    logger.error(err)
+  })
 
 server.use(restify.plugins.acceptParser(server.acceptable))
 server.use(restify.plugins.queryParser())
@@ -58,13 +63,21 @@ server.get('/sectors', (req, res, next) => {
   return next()
 })
 
-server.post('/sectors', (req, res, next) => {
+server.post('/selected-sectors', (req, res, next) => {
   try {
-    const {ids} = req.body;
+    const { ids } = req.body
+
+    const selectedSectors = new SelectedSectors({
+      userId: 'uid',
+      sectors: ids,
+    })
+
+    selectedSectors.save().then(res => logger.info(res)).catch(err => logger.error(err))
+
     logger.info(ids)
     res.send(ids)
   } catch (e) {
-    logger.error(e);
+    logger.error(e)
   }
 
   return next()
@@ -72,4 +85,4 @@ server.post('/sectors', (req, res, next) => {
 
 server.listen(config.PORT, () => {
   logger.info(`${server.name} is listening on ${server.url}`)
-});
+})
