@@ -2442,3 +2442,7 @@ In the future, we might start automatically compiling incompatible third-party m
 ## Something Missing?
 
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)
+
+
+import dataset:
+`mongoimport -h ds115592.mlab.com:15592 -d test-task -c sectors -u db-user -p "aRjVxD8MuaV68Z9rE&4CXk&R" --jsonArray --file dataset.json`
