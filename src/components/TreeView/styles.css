@@ -3,12 +3,18 @@ li.sector {
 }
 
 li.sector::before {
-  content: '−';
+  content: '\2212';
   color: #d3d3d3;
+  display: inline-block;
+  width: 1em;
 }
 
 li.sector.expanded::before {
   content: '+';
+}
+
+li.sector.empty::before {
+  content: '';
 }
 
 li.sector > span {

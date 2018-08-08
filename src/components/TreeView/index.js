@@ -11,7 +11,7 @@ const ListItem = ({
 }) => {
   const isExpanded = expanded.includes(id)
   return (
-    <li className={`sector ${isExpanded ? 'expanded' : null}`}>
+    <li className={`sector ${(!items && 'empty') || (isExpanded && 'expanded') || ''}`}>
       <input type="checkbox" />
       <span id={id} role="checkbox" aria-checked={isExpanded} onClick={toggleView}>
         {name}
