@@ -1,0 +1,18 @@
+.search {
+  padding: 10px;
+}
+
+.search input {
+  margin: 0;
+  padding: 5px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  font-style: italic;
+}
+
+.search::after {
+  content: '';
+  display: block;
+  height: 10px;
+  border-bottom: 1px solid #d3d3d3;
+}

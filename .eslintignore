@@ -1,0 +1,4 @@
+/node_modules
+registerServiceWorker.js
+/build
+/coverage
