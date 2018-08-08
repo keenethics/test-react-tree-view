@@ -50,36 +50,38 @@ server.use(cookieParser.parse)
 
 const jwtVerifyPromisified = util.promisify(jwt.verify)
 
+const createNewUser = async () => {
+  const user = new User({})
+  const result = await user.save()
+  const signedJWTToken = await jwt.sign({ id: user.id }, config.JWT_SECRET)
+  return signedJWTToken
+}
+
 server.get('/sectors', async (request, response, next) => {
   const { cookies } = request
 
-  const responseData = {}
+  const sectors = await Sector.find()
 
-  // TODO check JWT
-  // Show the error
-  // New user
+  const responseData = { sectors }
+
 
   if (cookies.jwt) {
     // existing user
-    const userData = await jwtVerifyPromisified(cookies.jwt, config.JWT_SECRET)
-    const user = await User.findById(userData.id)
-    responseData.selectedSectors = user.selectedSectors
-  } else {
-    // no user case
+    try {
+      const userData = await jwtVerifyPromisified(cookies.jwt, config.JWT_SECRET)
+      logger.info(`User with id ${userData.id} is trying to get sectors`)
 
-    const user = new User({})
-    const result = await user.save()
-
-    const token = jwt.sign({ id: user.id }, config.JWT_SECRET)
-    response.setCookie('jwt', token)
+      const user = await User.findById(userData.id)
+      responseData.selectedSectors = user.selectedSectors
+      response.send(responseData)
+      return next()
+    } catch (e) {
+      logger.error(`${cookies.jwt} - is not valid token`)
+    }
   }
 
-  const sectors = await Sector.find()
-
-  responseData.sectors = sectors
-
+  response.setCookie('jwt', await createNewUser())
   response.send(responseData)
-
 
   return next()
 })
