@@ -10,14 +10,53 @@ class Root extends Component {
     sectors: predefinedSectors,
     searchQuery: '',
     expanded: [],
-    selected: [],
+    selected: ['2', '4', '20', '21', '2830'],
+  }
+
+  componentDidMount() {
+    // TODO: fetch data from server
+    this.traverseSectors(this.state.sectors)
+  }
+
+  /**
+   * Recursive method to expand all parents of selected items
+   *
+   * @param {Array of objects} items -   an array of nested items to traverse
+   * @param {String} parentId -          an id of a parent (those should be expanded…
+   *                                     …if any of its ancestors is selected)
+   * @returns {Boolean}
+   */
+  traverseSectors = (items, parentId = null) => {
+    if (!items) return false
+    const { selected } = this.state
+    const shouldBeExpanded = items.reduce(($, item) => {
+      const becauseOfItem = selected.includes(item.id)
+      const becauseOnNestedItems = this.traverseSectors(item.items, item.id)
+      return $ || becauseOfItem || becauseOnNestedItems
+    }, false)
+    if (parentId && shouldBeExpanded) {
+      this.setState(({ expanded }) => ({ expanded: [...expanded, parentId] }))
+    }
+    return shouldBeExpanded
   }
 
   changeSearch = ({ target: { value: searchQuery } }) => this.setState({ searchQuery })
 
-  toggleSector = () => null
+  toggleView = ({ target: { id } }) => this.setState(({ expanded }) => ({
+    expanded: expanded.includes(id)
+      ? expanded.filter(idToExpand => idToExpand !== id)
+      : [...expanded, id],
+  }))
 
-  selectSector = () => null
+  toggleSelection = ({ target: { id } }) => this.setState(({ selected: previouslySelected }) => {
+    const selected = previouslySelected.includes(id)
+      ? previouslySelected.filter(idToExpand => idToExpand !== id)
+      : [...previouslySelected, id]
+
+    // TODO: call the server to store current expanded state
+
+    return { selected }
+  })
 
   render() {
     const {
@@ -35,8 +74,8 @@ class Root extends Component {
           sectors={sectors}
           expanded={expanded}
           selected={selected}
-          toggleSector={this.toggleSector}
-          selectSector={this.selectSector}
+          toggleView={this.toggleView}
+          toggleSelection={this.toggleSelection}
         />
       </div>
     )
