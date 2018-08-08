@@ -23,5 +23,7 @@ module.exports = {
     }],
     "react/destructuring-assignment": ["warn", "always"],
     "import/prefer-default-export": ["off"],
+    "jsx-a11y/interactive-supports-focus": ["warn"],
+    "jsx-a11y/click-events-have-key-events": ["warn"]
   },
 }

@@ -1,7 +1,16 @@
-input {
-  margin: 10px 10px 2px 10px;
-  padding: 5px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 1em;
-  font-style: italic;
+li.sector {
+  list-style-type: none;
+}
+
+li.sector::before {
+  content: '−';
+  color: #d3d3d3;
+}
+
+li.sector.expanded::before {
+  content: '+';
+}
+
+li.sector > span {
+  cursor: pointer;
 }

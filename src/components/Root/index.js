@@ -15,9 +15,13 @@ class Root extends Component {
 
   changeSearch = ({ target: { value: searchQuery } }) => this.setState({ searchQuery })
 
-  toggleSector = () => null
+  toggleView = ({ target: { id } }) => this.setState(({ expanded }) => ({
+    expanded: expanded.includes(id)
+      ? expanded.filter(idToExpand => idToExpand !== id)
+      : [...expanded, id],
+  }))
 
-  selectSector = () => null
+  toggleSelection = () => null
 
   render() {
     const {
@@ -35,8 +39,8 @@ class Root extends Component {
           sectors={sectors}
           expanded={expanded}
           selected={selected}
-          toggleSector={this.toggleSector}
-          selectSector={this.selectSector}
+          toggleView={this.toggleView}
+          toggleSelection={this.toggleSelection}
         />
       </div>
     )
