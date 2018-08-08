@@ -3,24 +3,36 @@ const mongoose = require('mongoose')
 const winston = require('winston')
 const dotenv = require('dotenv')
 
+const {Schema} = mongoose
+
 const config = dotenv.config({path: '../.env'}).parsed
 
 
 const server = restify.createServer({
-  name: 'myapp',
-  version: '1.0.0',
+  name: config.API_NAME,
+  version: config.API_VERSION,
 })
 
+let date = new Date().toISOString();
+
+const logFormat = winston.format.printf(function (info) {
+  return `${date}-${info.level}: ${JSON.stringify(info.message, null, 4)}`;
+});
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
   transports: [
-    new winston.transports.File({filename: 'error.log', level: 'error'}),
+    new winston.transports.Console({
+      handleExceptions: true,
+      prettyPrint: true,
+      colorize: true,
+      format: winston.format.combine(winston.format.colorize(), logFormat)
+    }), new winston.transports.File({filename: 'error.log', level: 'error'}),
     new winston.transports.File({filename: 'combined.log'}),
   ],
 })
 
-const sectorSchema = new mongoose.Schema({
+const sectorSchema = new Schema({
   id: String,
   name: String
 });
@@ -46,8 +58,18 @@ server.get('/sectors', (req, res, next) => {
   return next()
 })
 
-server.listen(config.PORT, () => {
-  logger.info(`Server is listening on ${config.PORT}`)
+server.post('/sectors', (req, res, next) => {
+  try {
+    const {ids} = req.body;
+    logger.info(ids)
+    res.send(ids)
+  } catch (e) {
+    logger.error(e);
+  }
 
-  console.log('%s listening at %s', server.name, server.url)
+  return next()
 })
+
+server.listen(config.PORT, () => {
+  logger.info(`${server.name} is listening on ${server.url}`)
+});
