@@ -1,10 +1,15 @@
 const restify = require('restify')
+const cookieParser = require('restify-cookies')
+const jwt = require('jsonwebtoken')
+
 const mongoose = require('mongoose')
 const winston = require('winston')
 const dotenv = require('dotenv')
 
+const util = require('util')
 const Sector = require('./models/Sector')
-const SelectedSectors = require('./models/SelectedSectors')
+const User = require('./models/User')
+
 
 const config = dotenv.config({ path: '../.env' }).parsed
 
@@ -31,8 +36,6 @@ const logger = winston.createLogger({
   ],
 })
 
-logger.info('The app is started')
-
 mongoose.connect(config.MONGO_URI, { useNewUrlParser: true })
   .then(() => {
     logger.info('Database connection established')
@@ -43,25 +46,54 @@ mongoose.connect(config.MONGO_URI, { useNewUrlParser: true })
 server.use(restify.plugins.acceptParser(server.acceptable))
 server.use(restify.plugins.queryParser())
 server.use(restify.plugins.bodyParser())
+server.use(cookieParser.parse)
 
-server.get('/sectors', (req, res, next) => {
-  Sector.find().then(sectors => res.send(sectors)).catch(err => logger.error(err))
+const jwtVerifyPromisified = util.promisify(jwt.verify)
+
+server.get('/sectors', async (request, response, next) => {
+  const { cookies } = request
+
+  const responseData = {}
+
+  // TODO check JWT
+  // Show the error
+  // New user
+
+  if (cookies.jwt) {
+    // existing user
+    const userData = await jwtVerifyPromisified(cookies.jwt, config.JWT_SECRET)
+    const user = await User.findById(userData.id)
+    responseData.selectedSectors = user.selectedSectors
+  } else {
+    // no user case
+
+    const user = new User({})
+    const result = await user.save()
+
+    const token = jwt.sign({ id: user.id }, config.JWT_SECRET)
+    response.setCookie('jwt', token)
+  }
+
+  const sectors = await Sector.find()
+
+  responseData.sectors = sectors
+
+  response.send(responseData)
+
+
   return next()
 })
 
-server.post('/selected-sectors', (req, res, next) => {
+server.post('/save-selectors', async (request, response, next) => {
   try {
-    const { ids } = req.body
+    const { ids } = request.body
+    const { cookies } = request
 
-    const selectedSectors = new SelectedSectors({
-      userId: 'uid',
-      sectors: ids,
-    })
-
-    selectedSectors.save().then(res => logger.info(res)).catch(err => logger.error(err))
+    const userData = await jwtVerifyPromisified(cookies.jwt, config.JWT_SECRET)
+    const result = await User.findByIdAndUpdate(userData.id, { $set: { selectedSectors: ids } })
 
     logger.info(ids)
-    res.send(ids)
+    response.send(ids)
   } catch (e) {
     logger.error(e)
   }

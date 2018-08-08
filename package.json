@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "dotenv": "^6.0.0",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.7",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4",
     "restify": "^7.2.1",
+    "restify-cookies": "^0.2.5",
     "winston": "^3.0.0"
   },
   "scripts": {
