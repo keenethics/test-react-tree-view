@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const winston = require('winston')
 const dotenv = require('dotenv')
 
-const { Schema } = mongoose
+const Sector = require('./models/Sector')
+const SelectedSectors = require('./models/SelectedSectors')
 
 const config = dotenv.config({ path: '../.env' }).parsed
 
@@ -29,21 +30,6 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'combined.log' }),
   ],
 })
-
-const sectorSchema = new Schema({
-  id: String,
-  name: String,
-})
-
-const Sector = mongoose.model('Sector', sectorSchema)
-
-const selectedSectorsSchema = new Schema({
-  userId: String,
-  sectors: Array,
-})
-
-const SelectedSectors = mongoose.model('SelectedSectors', selectedSectorsSchema)
-
 
 logger.info('The app is started')
 
