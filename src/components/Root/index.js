@@ -10,12 +10,12 @@ class Root extends Component {
     sectors: predefinedSectors,
     searchQuery: '',
     expanded: [],
-    selected: ['2', '4', '20', '21', '2830'],
+    selected: ['956'],
   }
 
   componentDidMount() {
     // TODO: fetch data from server
-    this.traverseSectors(this.state.sectors)
+    this.traverseSectorsToExpand(this.state.sectors)
   }
 
   /**
@@ -26,12 +26,12 @@ class Root extends Component {
    *                                     …if any of its ancestors is selected)
    * @returns {Boolean}
    */
-  traverseSectors = (items, parentId = null) => {
+  traverseSectorsToExpand = (items, parentId = null) => {
     if (!items) return false
     const { selected } = this.state
     const shouldBeExpanded = items.reduce(($, item) => {
       const becauseOfItem = selected.includes(item.id)
-      const becauseOnNestedItems = this.traverseSectors(item.items, item.id)
+      const becauseOnNestedItems = this.traverseSectorsToExpand(item.items, item.id)
       return $ || becauseOfItem || becauseOnNestedItems
     }, false)
     if (parentId && shouldBeExpanded) {
@@ -48,14 +48,49 @@ class Root extends Component {
       : [...expanded, id],
   }))
 
-  toggleSelection = ({ target: { id } }) => this.setState(({ selected: previouslySelected }) => {
+  findSelectedItem = (id, items) => {
+    if (!items) return false
+    const target = items.find(item => item.id === id)
+    if (target) return target
+    return items.reduce(($, item) => $ || this.findSelectedItem(id, item.items), null)
+  }
+
+  /**
+   * Selects or unselects all nested sectors
+   */
+  processSelectionOfNestedItems = (nestedItems, shouldSelect) => {
+    if (!nestedItems) return false
+    return nestedItems.forEach(({ id, items = null }) => {
+      this.setState(({ selected, expanded }) => ({
+        selected: shouldSelect
+          ? [...selected, id]
+          : selected.filter(idToSelect => idToSelect !== id),
+        expanded: shouldSelect
+          ? [...expanded, id]
+          : expanded.filter(idToExpand => idToExpand !== id),
+      }))
+      if (items) this.processSelectionOfNestedItems(items, shouldSelect)
+    })
+  }
+
+  toggleSelection = ({
+    target: { name: id },
+  }) => this.setState(({ selected: previouslySelected, expanded }) => {
     const selected = previouslySelected.includes(id)
-      ? previouslySelected.filter(idToExpand => idToExpand !== id)
+      ? previouslySelected.filter(idToSelect => idToSelect !== id)
       : [...previouslySelected, id]
-
-    // TODO: call the server to store current expanded state
-
-    return { selected }
+    // FIXME:
+    return {
+      selected,
+      expanded: !previouslySelected.includes(id)
+        ? [...expanded, id]
+        : expanded.filter(idToExpand => idToExpand !== id),
+    }
+  }, () => {
+    const selectedItem = this.findSelectedItem(id, this.state.sectors)
+    // FIXME:
+    this.processSelectionOfNestedItems(selectedItem.items, this.state.selected.includes(id))
+    // TODO: call the server to store current selected state
   })
 
   render() {

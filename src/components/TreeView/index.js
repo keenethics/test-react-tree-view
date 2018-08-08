@@ -15,7 +15,7 @@ const ListItem = ({
     <li className={`sector ${(!items && 'empty') || (isExpanded && 'expanded') || ''}`}>
       <input
         type="checkbox"
-        id={id}
+        name={id}
         checked={isSelected}
         onChange={toggleSelection}
       />
