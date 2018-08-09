@@ -44,18 +44,21 @@ server.get('/sectors', async (request, response, next) => {
 server.post('/save-selectors', async (request, response, next) => {
   try {
     const { cookies: { jwt: token }, body: { ids } } = request
-    // add error handling if ids is empty or is not an array
-    // add error handling in case ids are not correct
     const user = await getUserFromJwt(token)
     // add error handling if jwt token is not returning user, generate new user and save
     const { id: userId } = user
     logger.info(`User: ${userId} is saving selectors ${ids}`)
-    await User.findByIdAndUpdate(userId, { $set: { selectedSectors: ids } })
+    await User.findByIdAndUpdate(userId, {
+      $set: { selectedSectors: ids },
+    }, {
+      runValidators: true,
+    })
     response.send(ids)
   } catch (e) {
     logger.error('Saving selectors error')
     logger.error(e)
-    // Need to return http error with error to be displayed to user
+    response.status(422)
+    response.send(e)
   }
 
   return next()
