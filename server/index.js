@@ -12,7 +12,7 @@ require('./config/db')
 
 const { API_NAME, API_VERSION } = config
 
-const server = restify.createServer({
+export const server = restify.createServer({
   name: API_NAME,
   version: API_VERSION,
 })
