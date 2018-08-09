@@ -15,7 +15,6 @@ const getUserFromJwt = async token => {
     try {
       const userId = await jwtVerifyPromisified(token, JWT_SECRET)
       if (userId) {
-        logger.info(`User with id ${userId} is trying to get sectors`)
         user = await User.findById(userId)
       }
     } catch (e) {
