@@ -43,9 +43,14 @@ server.get('/sectors', async (request, response, next) => {
 })
 
 server.post('/save-selectors', async (request, response, next) => {
+  let statusCode = 422
+
   try {
     const { cookies: { jwt: token }, body: { ids } } = request
     const user = await getUserFromJwt(token)
+    if (!user) {
+      statusCode = 404
+    }
     // add error handling if jwt token is not returning user, generate new user and save
     const { id: userId } = user
     logger.info(`User: ${userId} is saving selectors ${ids}`)
@@ -58,8 +63,7 @@ server.post('/save-selectors', async (request, response, next) => {
   } catch (e) {
     logger.error('Saving selectors error')
     logger.error(e)
-    response.status(422)
-    response.send(e)
+    response.send(statusCode, e)
   }
 
   return next()
