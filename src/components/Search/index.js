@@ -15,6 +15,11 @@ const Search = ({
       onChange={changeSearch}
       placeholder="Search for sectors"
     />
+    {searchQuery.length < 3 && (
+      <span>
+        put at least 3 letters to start searching
+      </span>
+    )}
   </div>
 )
 

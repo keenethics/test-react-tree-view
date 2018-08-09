@@ -16,3 +16,8 @@
   height: 10px;
   border-bottom: 1px solid #d3d3d3;
 }
+
+.search span {
+  padding: 0 10px;
+  color: #d3d3d3;
+}
