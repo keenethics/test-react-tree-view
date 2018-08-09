@@ -1,0 +1,66 @@
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id [object Object] is trying to get sectors","level":"info"}
+{"message":"Unable to validate user token","level":"error"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id [object Object] is trying to get sectors","level":"info"}
+{"message":"Unable to validate user token","level":"error"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id [object Object] is trying to get sectors","level":"info"}
+{"message":"Unable to validate user token","level":"error"}
+{"message":"User with id 5b6b7f42db0c8863fdc17cf2 is trying to get sectors","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id 5b6b80afba0c806431859f80 is trying to get sectors","level":"info"}
+{"message":"Created new user with id 5b6b89fa9eb579651fcc03d4","level":"info"}
+{"message":"Unable to validate user token","level":"error"}
+{"message":"Created new user with id 5b6b8a1e9eb579651fcc03d5","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Saving selectors error","level":"error"}
+{"level":"error"}
+{"message":"User: undefined is saving selectors [1,2,3,4]","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User: undefined is saving selectors [1,2,3,4]","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User: undefined is saving selectors [1,2,3,4]","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User: undefined is saving selectors [1,2,3,4]","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User: undefined is saving selectors 1,2,3,4","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User: 5b6b7fcedb0c8863fdc17cf3 is saving selectors 1,2,3,4","level":"info"}
+{"message":"User with id 5b6b7fcedb0c8863fdc17cf3 is trying to get sectors","level":"info"}
+{"message":"User: 5b6b7fcedb0c8863fdc17cf3 is saving selectors 1,2,3,4,5","level":"info"}
