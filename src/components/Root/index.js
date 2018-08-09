@@ -11,7 +11,7 @@ class Root extends Component {
     searchQuery: '',
     expandedForSearch: [],
     expanded: [],
-    selected: ['956'],
+    selected: [],
   }
 
   componentDidMount() {
