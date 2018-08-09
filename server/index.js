@@ -29,6 +29,7 @@ server.get('/sectors', async (request, response, next) => {
   const user = await getUserFromJwt(token)
   if (user) {
     // existing user
+    logger.info(`User with id ${user.userId} is trying to get sectors`)
     const { selectedSectors } = user
     responseData.selectedSectors = selectedSectors
     response.send(responseData)
