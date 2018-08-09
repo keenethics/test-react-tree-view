@@ -3,11 +3,11 @@ import './styles.css'
 import Header from '../Header'
 import Search from '../Search'
 import TreeView from '../TreeView'
-import predefinedSectors from '../../helpers/sectors'
+import { request } from '../../helpers/api'
 
 class Root extends Component {
   state = {
-    sectors: predefinedSectors,
+    sectors: [],
     searchQuery: '',
     expandedForSearch: [],
     expanded: [],
@@ -15,15 +15,19 @@ class Root extends Component {
   }
 
   componentDidMount() {
-    // TODO: fetch data from server
-    this.traverseSectorsToExpand(this.state.sectors)
+    request('/sectors')
+      .then(({ sectors, selectedSectors }) => {
+        this.setState({ sectors, selected: selectedSectors })
+        this.traverseSectorsToExpand(sectors)
+      })
+      .catch(alert)
   }
 
   /**
    * Recursive method to expand all parents of selected items
    *
    * @param {Array of objects} items -   an array of nested items to traverse
-   * @param {String} parentId -          an id of a parent (those should be expanded…
+   * @param {String} parentId        -   an id of a parent (those should be expanded…
    *                                     …if any of its ancestors is selected)
    * @returns {Boolean}
    */
@@ -90,7 +94,9 @@ class Root extends Component {
           ? [...expanded, id]
           : expanded.filter(idToExpand => idToExpand !== id),
       }))
-      if (items) this.processSelectionOfNestedItems(items, shouldSelect)
+      if (items) {
+        this.processSelectionOfNestedItems(items, shouldSelect)
+      }
     })
   }
 
@@ -112,6 +118,9 @@ class Root extends Component {
     // FIXME:
     this.processSelectionOfNestedItems(selectedItem.items, this.state.selected.includes(id))
     // TODO: call the server to store current selected state
+    // FIXME: store the entire selected array
+    request('/save-selectors', 'POST', { ids: this.state.selected })
+      .catch(alert)
   })
 
   render() {

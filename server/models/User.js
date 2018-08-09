@@ -6,7 +6,7 @@ const MIN_LENGTH = 1
 const usersSchema = new Schema({
   userId: String,
   selectedSectors: {
-    type: [Number],
+    type: [String],
     // validate: [arrayMinLength(MIN_LENGTH), `SelectedSectors should be >= ${MIN_LENGTH}`],
   },
 })

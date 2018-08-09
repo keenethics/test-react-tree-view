@@ -1,7 +1,7 @@
 version: '2'
 services:
     mongodb:
-        image: bitnami/mongodb:latest
+        image: bitnami/mongodb:4.1
         container_name: "mongodb"
         environment:
           - MONGODB_ROOT_PASSWORD=password

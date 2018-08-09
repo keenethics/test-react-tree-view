@@ -2,6 +2,7 @@
   "name": "tree-view-test-react",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "dotenv": "^6.0.0",
     "jest": "^23.4.2",
@@ -22,8 +23,8 @@
     "start": "PORT=8081 react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint src/",
-    "test:client": "react-scripts test --env=jsdom",
-    "precommit": "npm run lint",
+    "test:client": "react-scripts test --env=jsdom --coverage",
+    "precommit": "npm run lint && npm run test:client",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
