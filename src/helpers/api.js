@@ -5,6 +5,7 @@ export const request = (path, method = 'GET', data = null) => new Promise((resol
       'content-type': 'application/json',
       'cache-control': 'no-cache',
     },
+    credentials: 'same-origin',
     body: data && JSON.stringify(data),
   })
     .then(res => {
