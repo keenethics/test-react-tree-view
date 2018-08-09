@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './styles.css'
 
 const Search = ({
@@ -16,5 +17,10 @@ const Search = ({
     />
   </div>
 )
+
+Search.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  changeSearch: PropTypes.func.isRequired,
+}
 
 export default Search

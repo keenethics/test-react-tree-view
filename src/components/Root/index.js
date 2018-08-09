@@ -57,10 +57,8 @@ class Root extends Component {
   }
 
   changeSearch = ({ target: { value: searchQuery } }) => {
-    console.log(searchQuery)
     this.setState({ searchQuery, expandedForSearch: [] })
     if (searchQuery.length >= 3) {
-      console.log(1111)
       this.traverseTreeForSearch(searchQuery, this.state.sectors)
     }
   }
@@ -131,6 +129,7 @@ class Root extends Component {
         <Search searchQuery={searchQuery} changeSearch={this.changeSearch} />
         <TreeView
           sectors={sectors}
+          searchQuery={searchQuery}
           expanded={[...expanded, ...expandedForSearch]}
           selected={selected}
           toggleView={this.toggleView}
