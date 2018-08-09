@@ -3,7 +3,6 @@ import cookieParser from 'restify-cookies'
 import logger from './config/logger'
 import config from './config'
 import { getUserFromJwt, createNewUser } from './session'
-// import Sector from './models/Sector'
 import User from './models/User'
 import sectors from './data/sectors.json'
 
@@ -12,7 +11,7 @@ require('./config/db')
 
 const { API_NAME, API_VERSION } = config
 
-const server = restify.createServer({
+export const server = restify.createServer({
   name: API_NAME,
   version: API_VERSION,
 })
@@ -27,9 +26,10 @@ server.get('/sectors', async (request, response, next) => {
   const { jwt: token } = cookies
   const responseData = { sectors, selectedSectors: [] }
   const user = await getUserFromJwt(token)
+
   if (user) {
     // existing user
-    logger.info(`User with id ${user.userId} is trying to get sectors`)
+    logger.info(`User with id ${user._id} is trying to get sectors`)
     const { selectedSectors } = user
     responseData.selectedSectors = selectedSectors
     response.send(responseData)
