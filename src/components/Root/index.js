@@ -23,6 +23,13 @@ class Root extends Component {
       .catch(alert)
   }
 
+  /**
+   * Traverse items to find all nested items id`s
+   *
+   * @param {Array of objects} nestedItems -   an array of nested items to traverse
+   *
+   * @returns {Array of strings}           -   id`s of nested items
+   */
   static getIdsOfNestedItems = nestedItems => {
     if (!nestedItems) return []
     return nestedItems.reduce(($, item) => [
