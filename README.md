@@ -30,11 +30,10 @@ Node.js, Restify, MongoDB, Mongoose, Docker
 - OS: Latest versions of Max OSX or Linux
 
 ## Installation
-> Please follow 
 > ### Install all required modules
 > Install Homebrew:
 > ```
-> npm install
+> $ npm install
 > ```
 or
 > ```
@@ -42,7 +41,7 @@ or
 > ```
 > ### Install and start the mongodb database (docker container)
 > ```
-> npm run start:db
+> $ npm run start:db
 > ```
 > If the installation fails, please add the .env.remote file to the root of the project to connect to the remote database 
 
