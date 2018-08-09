@@ -23,6 +23,15 @@ class Root extends Component {
       .catch(alert)
   }
 
+  static getIdsOfNestedItems = nestedItems => {
+    if (!nestedItems) return []
+    return nestedItems.reduce(($, item) => [
+      ...$,
+      item.id,
+      ...Root.getIdsOfNestedItems(item.items),
+    ], [])
+  }
+
   /**
    * Recursive method to expand all parents of selected items
    *
@@ -61,9 +70,10 @@ class Root extends Component {
   }
 
   changeSearch = ({ target: { value: searchQuery } }) => {
+    const { sectors } = this.state
     this.setState({ searchQuery, expandedForSearch: [] })
     if (searchQuery.length >= 3) {
-      this.traverseTreeForSearch(searchQuery, this.state.sectors)
+      this.traverseTreeForSearch(searchQuery, sectors)
     }
   }
 
@@ -80,33 +90,12 @@ class Root extends Component {
     return items.reduce(($, item) => $ || this.findSelectedItem(id, item.items), null)
   }
 
-  /**
-   * Selects or unselects all nested sectors
-   */
-  processSelectionOfNestedItems = (nestedItems, shouldSelect) => {
-    if (!nestedItems) return false
-    return nestedItems.forEach(({ id, items = null }) => {
-      this.setState(({ selected, expanded }) => ({
-        selected: shouldSelect
-          ? [...selected, id]
-          : selected.filter(idToSelect => idToSelect !== id),
-        expanded: shouldSelect
-          ? [...expanded, id]
-          : expanded.filter(idToExpand => idToExpand !== id),
-      }))
-      if (items) {
-        this.processSelectionOfNestedItems(items, shouldSelect)
-      }
-    })
-  }
-
   toggleSelection = ({
     target: { name: id },
   }) => this.setState(({ selected: previouslySelected, expanded }) => {
     const selected = previouslySelected.includes(id)
       ? previouslySelected.filter(idToSelect => idToSelect !== id)
       : [...previouslySelected, id]
-    // FIXME:
     return {
       selected,
       expanded: !previouslySelected.includes(id)
@@ -114,12 +103,21 @@ class Root extends Component {
         : expanded.filter(idToExpand => idToExpand !== id),
     }
   }, () => {
-    const selectedItem = this.findSelectedItem(id, this.state.sectors)
-    // FIXME:
-    this.processSelectionOfNestedItems(selectedItem.items, this.state.selected.includes(id))
-    // TODO: call the server to store current selected state
-    // FIXME: store the entire selected array
-    request('/save-selectors', 'POST', { ids: this.state.selected })
+    const { sectors, selected, expanded } = this.state
+    const selectedItem = this.findSelectedItem(id, sectors)
+    const nestedIds = Root.getIdsOfNestedItems(selectedItem.items)
+    const shouldSelect = selected.includes(id)
+    const selectedNew = shouldSelect
+      ? [...selected, ...nestedIds]
+      : selected.filter(idToSelect => !nestedIds.includes(idToSelect))
+    const expandedNew = shouldSelect
+      ? [...expanded, ...nestedIds]
+      : expanded.filter(idToExpand => !nestedIds.includes(idToExpand))
+    this.setState({
+      selected: selectedNew,
+      expanded: expandedNew,
+    })
+    request('/save-selectors', 'POST', { ids: selectedNew })
       .catch(alert)
   })
 
