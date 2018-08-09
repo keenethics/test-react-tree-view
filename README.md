@@ -3,9 +3,17 @@
 ## Goal
 Develop a tool which visually presents data in a tree-view format. The goal of the exercise is to allow the client to validate our software development skill.
 
-## Assumptions
-- We think, that all functionality should be available only for authorised users. However, we don't complete a visible module to login/signup, because it would take aditional time. We can add this later.
-- Based on the previous point, we use JWT for users, because we think that this is a fastest way to indentify a user
+## Assumptions & Decisions
+For the sake of timeliness, the following assumptions were made / decisions taken:
+- User authentication / session management is not in scope for the test. Therefore, there will only be one single global persistent selectors selection (and no access management whatsoever). We used a jwt stored as browser cookies to identify a session - this is not sutable for a real production application.
+- The solution is meant to be run in a local environment in development mode and not meant for production purposes
+- The list of selectors is considered static and will be served directly from server memory vs. stored in the database
+- Because the list of static and finite, the search capability was implemented in the front end. The search capability is not throttled and will hang on occasions if the user is typing too fast (this can be fixed easily).
+- Out of scope:
+  - End to end testing is not in scope for the test. Andrew and Serhii will focus on static analysis, unit testing and integration testing
+  - Database / Server resilience, scalability and tuning
+  - Database <> Server integration testing (this would be required in production)
+
 
 ## Tech stack (front end & back end)
 - front end:
