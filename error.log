@@ -1,7 +1,0 @@
-{"message":"Unable to validate user token","level":"error"}
-{"message":"Unable to validate user token","level":"error"}
-{"message":"Unable to validate user token","level":"error"}
-{"name":"MongoNetworkError","message":"failed to connect to server [127.0.0.1:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017]","errorLabels":["TransientTransactionError"],"level":"error"}
-{"message":"Unable to validate user token","level":"error"}
-{"message":"Saving selectors error","level":"error"}
-{"level":"error"}
