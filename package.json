@@ -2,8 +2,10 @@
   "name": "tree-view-test-react",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "dotenv": "^6.0.0",
+    "jest": "^23.4.2",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.7",
     "prop-types": "^15.6.2",
@@ -21,15 +23,17 @@
     "start": "PORT=8081 react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint src/",
-    "test": "react-scripts test --env=jsdom",
+    "test:client": "react-scripts test --env=jsdom --coverage",
     "test:integration": "mocha --compilers js:babel-core/register",
-    "precommit": "npm run lint",
+    "precommit": "npm run lint && npm run test:client",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
@@ -37,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "husky": "^0.14.3",
+    "react-test-renderer": "^16.4.2",
     "mocha": "^5.2.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.1.0"

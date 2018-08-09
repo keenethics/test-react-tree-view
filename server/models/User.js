@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
-  const usersSchema = new Schema({
+const usersSchema = new Schema({
   selectedSectors: {
     type: [String],
   },

@@ -3,26 +3,31 @@ import './styles.css'
 import Header from '../Header'
 import Search from '../Search'
 import TreeView from '../TreeView'
-import predefinedSectors from '../../helpers/sectors'
+import { request } from '../../helpers/api'
 
 class Root extends Component {
   state = {
-    sectors: predefinedSectors,
+    sectors: [],
     searchQuery: '',
+    expandedForSearch: [],
     expanded: [],
     selected: ['956'],
   }
 
   componentDidMount() {
-    // TODO: fetch data from server
-    this.traverseSectorsToExpand(this.state.sectors)
+    request('/sectors')
+      .then(({ sectors, selectedSectors }) => {
+        this.setState({ sectors, selected: selectedSectors })
+        this.traverseSectorsToExpand(sectors)
+      })
+      .catch(alert)
   }
 
   /**
    * Recursive method to expand all parents of selected items
    *
    * @param {Array of objects} items -   an array of nested items to traverse
-   * @param {String} parentId -          an id of a parent (those should be expanded…
+   * @param {String} parentId        -   an id of a parent (those should be expanded…
    *                                     …if any of its ancestors is selected)
    * @returns {Boolean}
    */
@@ -31,8 +36,8 @@ class Root extends Component {
     const { selected } = this.state
     const shouldBeExpanded = items.reduce(($, item) => {
       const becauseOfItem = selected.includes(item.id)
-      const becauseOnNestedItems = this.traverseSectorsToExpand(item.items, item.id)
-      return $ || becauseOfItem || becauseOnNestedItems
+      const becauseOfNestedItems = this.traverseSectorsToExpand(item.items, item.id)
+      return $ || becauseOfItem || becauseOfNestedItems
     }, false)
     if (parentId && shouldBeExpanded) {
       this.setState(({ expanded }) => ({ expanded: [...expanded, parentId] }))
@@ -40,7 +45,27 @@ class Root extends Component {
     return shouldBeExpanded
   }
 
-  changeSearch = ({ target: { value: searchQuery } }) => this.setState({ searchQuery })
+  traverseTreeForSearch = (searchQuery, items, parentId = null) => {
+    if (!items) return false
+    const shouldBeExpanded = items.reduce(($, item) => {
+      const becauseOfItem = item.name.match(RegExp(searchQuery, 'i'))
+      const becauseOfNestedItems = this.traverseTreeForSearch(searchQuery, item.items, item.id)
+      return $ || becauseOfItem || becauseOfNestedItems
+    }, false)
+    if (parentId && shouldBeExpanded) {
+      this.setState(({ expandedForSearch }) => ({
+        expandedForSearch: [...expandedForSearch, parentId],
+      }))
+    }
+    return shouldBeExpanded
+  }
+
+  changeSearch = ({ target: { value: searchQuery } }) => {
+    this.setState({ searchQuery, expandedForSearch: [] })
+    if (searchQuery.length >= 3) {
+      this.traverseTreeForSearch(searchQuery, this.state.sectors)
+    }
+  }
 
   toggleView = ({ target: { id } }) => this.setState(({ expanded }) => ({
     expanded: expanded.includes(id)
@@ -69,7 +94,9 @@ class Root extends Component {
           ? [...expanded, id]
           : expanded.filter(idToExpand => idToExpand !== id),
       }))
-      if (items) this.processSelectionOfNestedItems(items, shouldSelect)
+      if (items) {
+        this.processSelectionOfNestedItems(items, shouldSelect)
+      }
     })
   }
 
@@ -91,12 +118,16 @@ class Root extends Component {
     // FIXME:
     this.processSelectionOfNestedItems(selectedItem.items, this.state.selected.includes(id))
     // TODO: call the server to store current selected state
+    // FIXME: store the entire selected array
+    request('/save-selectors', 'POST', { ids: this.state.selected })
+      .catch(alert)
   })
 
   render() {
     const {
       sectors,
       searchQuery,
+      expandedForSearch,
       expanded,
       selected,
     } = this.state
@@ -107,7 +138,8 @@ class Root extends Component {
         <Search searchQuery={searchQuery} changeSearch={this.changeSearch} />
         <TreeView
           sectors={sectors}
-          expanded={expanded}
+          searchQuery={searchQuery}
+          expanded={[...expanded, ...expandedForSearch]}
           selected={selected}
           toggleView={this.toggleView}
           toggleSelection={this.toggleSelection}

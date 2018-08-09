@@ -3,14 +3,14 @@ li.sector {
 }
 
 li.sector::before {
-  content: '\2212';
+  content: '+';
   color: #d3d3d3;
   display: inline-block;
   width: 1em;
 }
 
 li.sector.expanded::before {
-  content: '+';
+  content: '\2212';
 }
 
 li.sector.empty::before {
@@ -19,4 +19,10 @@ li.sector.empty::before {
 
 li.sector > span {
   cursor: pointer;
+}
+
+li.sector span.highlighted {
+  background: gold;
+  border-radius: 2px;
+  padding: 0 2px;
 }

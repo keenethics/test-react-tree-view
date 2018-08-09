@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <header>
+    <h1>
+      Sectors
+    </h1>
+  </header>
+  <div
+    className="search"
+  >
+    <input
+      className="search"
+      name="search"
+      onChange={[Function]}
+      placeholder="Search for sectors"
+      type="text"
+      value=""
+    />
+  </div>
+  <ul
+    className="tree-view"
+  />
+</div>
+`;
