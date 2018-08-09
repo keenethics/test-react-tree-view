@@ -3,7 +3,6 @@ import cookieParser from 'restify-cookies'
 import logger from './config/logger'
 import config from './config'
 import { getUserFromJwt, createNewUser } from './session'
-// import Sector from './models/Sector'
 import User from './models/User'
 import sectors from './data/sectors.json'
 
