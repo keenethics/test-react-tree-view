@@ -26,22 +26,18 @@ Node.js, Restify, MongoDB, Mongoose, Docker
 - Docker >= v18
 - npm >= 5.6.0
 - yarn > 1.7
-- OS: Latest versions of Max OSX or Linux
+- OS: Latest versions of Mac OSX or Linux
 
 ## Installation
 > ### Install all required modules
 > ```
 > $ npm install
 > ```
-or
-> ```
-> yarn
-> ```
 > ### Install and start the mongodb database (docker container)
 > ```
 > $ npm run start:db
 > ```
-> If the installation fails, please add the .env.remote file to the root of the project to connect to the remote database 
+> If the installation fails, please add the .env.remote file to the root of the project to connect to the remote database
 
 ## Run
 Please follow the below steps in a sequential order:
