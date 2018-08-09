@@ -11,6 +11,12 @@ require('./config/db')
 
 const { API_NAME, API_VERSION } = config
 
+const STATUS_CODES = {
+  invalidValidation: 442,
+  accessDenied: 404,
+}
+
+
 export const server = restify.createServer({
   name: API_NAME,
   version: API_VERSION,
@@ -43,15 +49,14 @@ server.get('/sectors', async (request, response, next) => {
 })
 
 server.post('/save-selectors', async (request, response, next) => {
-  let statusCode = 422
+  let statusCode = STATUS_CODES.invalidValidation
 
   try {
     const { cookies: { jwt: token }, body: { ids } } = request
     const user = await getUserFromJwt(token)
     if (!user) {
-      statusCode = 404
+      statusCode = STATUS_CODES.accessDenied
     }
-    // add error handling if jwt token is not returning user, generate new user and save
     const { id: userId } = user
     logger.info(`User: ${userId} is saving selectors ${ids}`)
     await User.findByIdAndUpdate(userId, {
