@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
@@ -7,6 +7,4 @@ const usersSchema = new Schema({
   selectedSectors: Array,
 })
 
-const User = mongoose.model('User', usersSchema)
-
-module.exports = User
+export default mongoose.model('User', usersSchema)

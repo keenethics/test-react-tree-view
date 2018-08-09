@@ -1,14 +1,12 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
 const sectorSchema = new Schema({
   id: String,
   name: String,
+  parentId: String,
 })
 
 
-const Sector = mongoose.model('Sector', sectorSchema)
-
-
-module.exports = Sector
+export default mongoose.model('Sector', sectorSchema)

@@ -12,3 +12,9 @@
 {"name":"MongoError","message":"Authentication failed.","ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed","level":"error"}
 {"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
 {"name":"MongoError","message":"Authentication failed.","ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed","level":"error"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"name":"MongoError","message":"Authentication failed.","ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed","level":"error"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
+{"message":"Sectors_API is listening on http://[::]:8080","level":"info"}
+{"message":"Database connection established","level":"info"}
