@@ -15,7 +15,10 @@
     "winston": "^3.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:server": "babel-node ./server/index.js --inspect --presets es2015,stage-2",
+    "start:db": "cd db && docker-compose up &",
+    "stop:db": "cd db && docker-compose down &",
+    "start": "PORT=8081 react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint src/",
     "test": "react-scripts test --env=jsdom",
@@ -23,11 +26,15 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "rimraf": "^2.6.2"
   }
 }

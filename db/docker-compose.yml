@@ -1,0 +1,15 @@
+version: '2'
+services:
+    mongodb:
+        image: bitnami/mongodb:latest
+        container_name: "mongodb"
+        environment:
+          - MONGODB_ROOT_PASSWORD=password
+          - MONGODB_USERNAME=appDbAdmin
+          - MONGODB_PASSWORD=password
+          - MONGODB_DATABASE=tree-view
+        volumes:
+          # - ./init:/docker-entrypoint-initdb.d
+          - ./data/db:/bitnami
+        ports:
+            - 27017:27017
