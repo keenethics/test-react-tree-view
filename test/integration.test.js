@@ -83,10 +83,7 @@ describe('API tests', () => {
     const req = supertest(server).post('/save-selectors')
     req.cookies = cookies
     req.send({ids: ["777", "888", '1234']}).end((err, response) => {
-      console.log(response.status)
-      console.log(response.body)
       expect(response.status).to.equal(200);
-
       done();
     })
 

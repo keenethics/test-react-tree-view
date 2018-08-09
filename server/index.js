@@ -10,7 +10,7 @@ import connectToDb from './config/db'
 const { API_NAME, API_VERSION } = config
 
 const STATUS_CODES = {
-  invalidValidation: 442,
+  invalidValidation: 422,
   accessDenied: 404,
 }
 
