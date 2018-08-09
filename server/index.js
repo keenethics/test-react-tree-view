@@ -25,7 +25,7 @@ server.use(cookieParser.parse)
 server.get('/sectors', async (request, response, next) => {
   const { cookies } = request
   const { jwt: token } = cookies
-  const responseData = { sectors }
+  const responseData = { sectors, selectedSectors: [] }
   const user = await getUserFromJwt(token)
 
   if (user) {

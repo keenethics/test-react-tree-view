@@ -1,10 +1,9 @@
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
-const MIN_LENGTH = 1
-const usersSchema = new Schema({
+  const usersSchema = new Schema({
   selectedSectors: {
-    type: [Number],
+    type: [String],
   },
 })
 
