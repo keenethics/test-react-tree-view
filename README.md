@@ -14,7 +14,6 @@ For the sake of timeliness, the following assumptions were made / decisions take
   - Database / Server resilience, scalability and tuning
   - Database <> Server integration testing (this would be required in production)
 
-
 ## Tech stack (front end & back end)
 - front end:
 React
@@ -31,7 +30,6 @@ Node.js, Restify, MongoDB, Mongoose, Docker
 
 ## Installation
 > ### Install all required modules
-> Install Homebrew:
 > ```
 > $ npm install
 > ```
@@ -57,7 +55,7 @@ $ npm run start:server
 ```
 Start the web server serving the react web-page
 ```
-$ npm run start:client
+$ npm run start
 ```
 
 ## Testing
