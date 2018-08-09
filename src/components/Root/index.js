@@ -9,6 +9,7 @@ class Root extends Component {
   state = {
     sectors: predefinedSectors,
     searchQuery: '',
+    expandedForSearch: [],
     expanded: [],
     selected: ['956'],
   }
@@ -31,8 +32,8 @@ class Root extends Component {
     const { selected } = this.state
     const shouldBeExpanded = items.reduce(($, item) => {
       const becauseOfItem = selected.includes(item.id)
-      const becauseOnNestedItems = this.traverseSectorsToExpand(item.items, item.id)
-      return $ || becauseOfItem || becauseOnNestedItems
+      const becauseOfNestedItems = this.traverseSectorsToExpand(item.items, item.id)
+      return $ || becauseOfItem || becauseOfNestedItems
     }, false)
     if (parentId && shouldBeExpanded) {
       this.setState(({ expanded }) => ({ expanded: [...expanded, parentId] }))
@@ -40,7 +41,29 @@ class Root extends Component {
     return shouldBeExpanded
   }
 
-  changeSearch = ({ target: { value: searchQuery } }) => this.setState({ searchQuery })
+  traverseTreeForSearch = (searchQuery, items, parentId = null) => {
+    if (!items) return false
+    const shouldBeExpanded = items.reduce(($, item) => {
+      const becauseOfItem = item.name.match(RegExp(searchQuery, 'i'))
+      const becauseOfNestedItems = this.traverseTreeForSearch(searchQuery, item.items, item.id)
+      return $ || becauseOfItem || becauseOfNestedItems
+    }, false)
+    if (parentId && shouldBeExpanded) {
+      this.setState(({ expandedForSearch }) => ({
+        expandedForSearch: [...expandedForSearch, parentId],
+      }))
+    }
+    return shouldBeExpanded
+  }
+
+  changeSearch = ({ target: { value: searchQuery } }) => {
+    console.log(searchQuery)
+    this.setState({ searchQuery, expandedForSearch: [] })
+    if (searchQuery.length >= 3) {
+      console.log(1111)
+      this.traverseTreeForSearch(searchQuery, this.state.sectors)
+    }
+  }
 
   toggleView = ({ target: { id } }) => this.setState(({ expanded }) => ({
     expanded: expanded.includes(id)
@@ -97,6 +120,7 @@ class Root extends Component {
     const {
       sectors,
       searchQuery,
+      expandedForSearch,
       expanded,
       selected,
     } = this.state
@@ -107,7 +131,7 @@ class Root extends Component {
         <Search searchQuery={searchQuery} changeSearch={this.changeSearch} />
         <TreeView
           sectors={sectors}
-          expanded={expanded}
+          expanded={[...expanded, ...expandedForSearch]}
           selected={selected}
           toggleView={this.toggleView}
           toggleSelection={this.toggleSelection}
