@@ -1,13 +1,9 @@
 import mongoose from 'mongoose'
-import { arrayMinLength } from '../util/validators'
 
 const { Schema } = mongoose
-const MIN_LENGTH = 1
-const usersSchema = new Schema({
-  userId: String,
+  const usersSchema = new Schema({
   selectedSectors: {
-    type: [Number],
-    // validate: [arrayMinLength(MIN_LENGTH), `SelectedSectors should be >= ${MIN_LENGTH}`],
+    type: [String],
   },
 })
 
