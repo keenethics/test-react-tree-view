@@ -18,6 +18,9 @@ exports[`renders correctly 1`] = `
       type="text"
       value=""
     />
+    <span>
+      put at least 3 letters to start searching
+    </span>
   </div>
   <ul
     className="tree-view"
