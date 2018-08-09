@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ul
+  className="tree-view"
+>
+  <li
+    className="sector "
+  >
+    <input
+      checked={false}
+      name="id"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <span
+      aria-checked={false}
+      id="id"
+      onClick={[Function]}
+      role="checkbox"
+    >
+      name
+    </span>
+  </li>
+</ul>
+`;
