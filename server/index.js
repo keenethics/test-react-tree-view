@@ -5,9 +5,7 @@ import config from './config'
 import { getUserFromJwt, createNewUser } from './session'
 import User from './models/User'
 import sectors from './data/sectors.json'
-
-// Connect to database
-require('./config/db')
+import connectToDb from './config/db'
 
 const { API_NAME, API_VERSION } = config
 
@@ -74,6 +72,7 @@ server.post('/save-selectors', async (request, response, next) => {
   return next()
 })
 
-server.listen(config.PORT, () => {
+// Start db server and, upon successful connection, start listening to API requests
+connectToDb(() => server.listen(config.PORT, () => {
   logger.info(`${server.name} is listening on ${server.url}`)
-})
+}))
