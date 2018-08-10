@@ -21,6 +21,13 @@ const seedData = (items, parentId) => {
 
 const connectToRemoteDB = onSuccess => {
   const remoteConfig = dotenv.config({ path: `${__dirname}/../../.env.remote` }).parsed
+  if (typeof remoteConfig !== 'object' || !remoteConfig.MONGO_URI) {
+    logger.error(
+      'Please make sure you place the .env.remote file at the root of the project folder.',
+      'The file is required to connect to the remote mongodb database if the local db server is not detected',
+    )
+    process.exit(1)
+  }
   const { MONGO_URI: MONGO_URI_REMOTE } = remoteConfig
   mongoose
     .connect(MONGO_URI_REMOTE, {
