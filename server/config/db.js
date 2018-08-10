@@ -56,4 +56,8 @@ const connectToDb = onSuccess => {
     })
 }
 
+export const disconnectFromDb = () => {
+  mongoose.connection.close()
+}
+
 export default connectToDb
