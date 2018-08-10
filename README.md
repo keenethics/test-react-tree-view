@@ -10,6 +10,8 @@ For the sake of timeliness, the following assumptions were made / decisions take
 - The list of selectors is considered static and will be served directly from server memory vs. stored in the database
 - Because the list of static and finite, the search capability was implemented in the front end. The search capability is not throttled and will hang on occasions if the user is typing too fast (this can be fixed easily).
 - We use the local database both for running the local application and for testing. This is not suitable in a real world scenario (where we'd have an immutable docker-ized local QA environment for local testing purposes).
+- We didn't spend meaningful time styling the tree view which results in a very bland design and a few ux issues (e.g., the tree view does not expand or close when clicking on the (+) and (-) next to the checkbox):
+![issue](https://image.ibb.co/n6sgY9/plusbox.gif)
 - Client side unit testing only covers a tiny portion of the code
 - Out of scope:
   - End to end testing is not in scope for the test. Andrew and Serhii will focus on static analysis, unit testing and integration testing
