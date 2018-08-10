@@ -10,6 +10,7 @@ For the sake of timeliness, the following assumptions were made / decisions take
 - The list of selectors is considered static and will be served directly from server memory vs. stored in the database
 - Because the list of static and finite, the search capability was implemented in the front end. The search capability is not throttled and will hang on occasions if the user is typing too fast (this can be fixed easily).
 - We use the local database both for running the local application and for testing. This is not suitable in a real world scenario (where we'd have an immutable docker-ized local QA environment for local testing purposes).
+- Client side unit testing only covers a tiny portion of the code
 - Out of scope:
   - End to end testing is not in scope for the test. Andrew and Serhii will focus on static analysis, unit testing and integration testing
   - Database / Server resilience, scalability and tuning
