@@ -5,7 +5,7 @@ import config from './config'
 import { getUserFromJwt, createNewUser } from './session'
 import User from './models/User'
 import sectors from './data/sectors.json'
-import connectToDb from './config/db'
+import connectToDb, { disconnectFromDb } from './config/db'
 
 const { API_NAME, API_VERSION } = config
 
@@ -14,8 +14,7 @@ const STATUS_CODES = {
   accessDenied: 404,
 }
 
-
-export const server = restify.createServer({
+const server = restify.createServer({
   name: API_NAME,
   version: API_VERSION,
 })
@@ -76,3 +75,6 @@ server.post('/save-selectors', async (request, response, next) => {
 connectToDb(() => server.listen(config.PORT, () => {
   logger.info(`${server.name} is listening on ${server.url}`)
 }))
+
+export { disconnectFromDb }
+export default server
