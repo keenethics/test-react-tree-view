@@ -65,7 +65,7 @@ Start the web server serving the react web-page
 $ npm run start
 ```
 
-## Testing
+## Test
 Run fron-end unit tests:
 ```
 $ npm run test:unit
